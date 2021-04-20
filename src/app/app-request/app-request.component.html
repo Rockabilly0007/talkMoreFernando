@@ -1,0 +1,107 @@
+<div class="form">
+    <div class="col-md-6 form-title">
+        <h2><strong>Nova Solicitação</strong></h2>
+        <h4>Insira aqui os dados cadastrais para uma nova solicitação</h4>
+    </div>
+    <div class="form-body mt-4">
+        <form class="col-md">
+            <div class="row" [formGroup]="form">
+                <div class="form-group col-md-4">
+                    <label for="empresa">Empresa</label>
+                    <input type="text" class="form-control" placeholder="Nome da Empresa" name="empresa"
+                     [(ngModel)]="request.empresa" formControlName="empresa">
+                    <span class="error" *ngIf="empresa.invalid && empresa.touched"> 
+                        <small>*Nome da Empresa é obrigatório</small>
+                    </span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" class="form-control" placeholder="CNPJ da Empresa" mask="00.000.000/0000-99" name="cnpj"
+                     [(ngModel)]="request.cnpj" formControlName="cnpj">
+                    <span class="error" *ngIf="cnpj.invalid && cnpj.touched" role="alert"> 
+                        <small>*Forneça um CNPJ válido</small>
+                    </span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="plano">Plano</label>
+                    <input type="text" class="form-control" placeholder="Escolha o Plano" name="plano"
+                     [(ngModel)]="request.plano" formControlName="plano">
+                    <span class="error" *ngIf="plano.invalid && plano.touched" role="alert"> 
+                        <small>*Campo obrigatório</small>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label for="tarifa">Tarifa</label>
+                    <input type="text" class="form-control" placeholder="Tarifa" name="tarifa" 
+                     [(ngModel)]="request.tarifa">
+                    <!-- <span class="error" *ngIf="tarifa.invalid && tarifa.touched" role="alert"> 
+                        <small>Campo obrigatório</small>
+                    </span> -->
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="minutos">Minutos</label>
+                    <input type="text" class="form-control" placeholder="Escolha os Minutos" name="minutos" 
+                     [(ngModel)]="request.minutos">
+                    <!-- <span class="error" *ngIf="minutos.invalid && minutos.touched" role="alert"> 
+                        <small>Campo obrigatório</small>
+                    </span> -->
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="vplano">Valor do plano</label>
+                    <input type="text" class="form-control" placeholder="Valor do Plano" name="vplano" 
+                     [(ngModel)]="request.vplano">
+                    <!-- <span class="error" *ngIf="vplano.invalid && vplano.touched" role="alert"> 
+                        <small>Campo obrigatório</small>
+                    </span> -->
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="dateAdesao">Data de Adesão</label>
+                    <input type="text" class="form-control" mask="00/00/0000" placeholder="Data de Adesão" 
+                     name="dateAdesao" [(ngModel)]="request.dateAdesao">
+                </div>
+                <div class="col-md-4 button">
+                    <button type="submit" class="btn btn-primary" (click)="addRequest()">Adicionar Solicitação</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div class="col-md-6 request-title">
+        <h2><strong>Minhas Solicitações</strong></h2>
+        <h4>Aqui você pode acompanhar o andamento das suas solicitaçôes</h4>
+    </div>
+    <table class="table col-md-12 mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Empresa</th>
+                <th>CNPJ</th>
+                <th>Plano</th>
+                <th>Tarifa</th>
+                <th>Minutos</th>
+                <th>Valor do Plano</th>
+                <th>Data de Adesão</th>
+                <th>Data de Envio</th>
+                <th>Atualizar</th>
+                <th>Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let request of requests">
+                <td>{{request.id}}</td>
+                <td>{{request.empresa}}</td>
+                <td>{{request.cnpj}}</td>
+                <td>{{request.plano}}</td>
+                <td>{{request.tarifa | currency:'BRL':'symbol':'1.0-0'}}</td>
+                <td>{{request.minutos}}</td>
+                <td>{{request.vplano | currency:'BRL':'symbol':'1.0-0'}}</td>
+                <td>{{request.dateAdesao | date: 'dd/MM/yyyy':'pt-br'}}</td>
+                <td value="MM/dd/yyyy">{{request.dateEmissao | date:'MM/dd/yyyy h:mm'}} </td>
+                <td><button type="update" (click)="updateRequest(request._id)">Atualizar</button></td>
+                <td><button type="delete" (click)="deleteRequest(request._id)">Deletar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
